@@ -20,7 +20,7 @@ impl Rake {
     }
 
     /// Runs RAKE algorithm on `text` and returns a vector of keywords.
-    /// The returned vector is sorted by score (from greate to less).
+    /// The returned vector is sorted by score (from greater to less).
     pub fn run(&self, text: &str) -> Vec<KeywordScore> {
         let phrases = self.phrases(text);
         let word_scores = self.word_scores(&phrases);
