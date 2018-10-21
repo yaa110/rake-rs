@@ -10,6 +10,10 @@ pub struct Rake {
     stop_words: StopWords,
 }
 
+lazy_static! {
+    static ref PUNC_RE: Regex = Regex::new(r"[^\P{P}-]|\s+-\s+").unwrap();
+}
+
 impl Rake {
     /// Create a new instance of `Rake`.
     /// `stop_words` is an instance of `StopWords` struct.
@@ -75,8 +79,7 @@ impl Rake {
 
     fn phrases<'a>(&'a self, text: &'a str) -> Vec<Vec<&'a str>> {
         let mut phrases = Vec::new();
-        let punc_re = Regex::new(r"[^\P{P}-]|\s+-\s+").unwrap();
-        punc_re.split(text).filter(|s| !s.is_empty()).for_each(|s| {
+        PUNC_RE.split(text).filter(|s| !s.is_empty()).for_each(|s| {
             let mut phrase = Vec::new();
             s.split_whitespace().for_each(|word| {
                 if self.stop_words.contains(word.to_lowercase().as_str()) {
