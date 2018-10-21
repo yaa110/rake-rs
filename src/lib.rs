@@ -46,11 +46,11 @@ extern crate regex;
 #[macro_use]
 extern crate lazy_static;
 
+mod inner;
+mod keyword;
 mod rake;
 mod stopwords;
-mod keyword;
-mod inner;
 
+pub use keyword::{KeywordScore, KeywordSort};
 pub use rake::Rake;
 pub use stopwords::StopWords;
-pub use keyword::{KeywordScore, KeywordSort};

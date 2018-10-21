@@ -1,10 +1,10 @@
 use std::collections::HashSet;
-use std::fs::File;
 use std::convert::AsRef;
-use std::path::Path;
-use std::io::{self, BufRead, BufReader};
 use std::convert::{From, Into};
+use std::fs::File;
+use std::io::{self, BufRead, BufReader};
 use std::ops::{Deref, DerefMut};
+use std::path::Path;
 
 /// Represents a set of stop words
 #[derive(Debug, Clone)]
