@@ -26,7 +26,16 @@ impl Rake {
     /// Runs RAKE algorithm on `text` and returns a vector of keywords.
     /// The returned vector is sorted by score (from greater to less).
     pub fn run(&self, text: &str) -> Vec<KeywordScore> {
-        let phrases = self.phrases(text);
+        let phrases = self.phrases(PUNC_RE.split(text));
+        let word_scores = self.word_scores(&phrases);
+        self.candidate_keywords(&phrases, word_scores)
+    }
+
+    /// Runs RAKE algorithm on chunks of text and returns a vector of keywords.
+    /// The returned vector is sorted by score (from greater to less).
+    #[inline]
+    pub fn run_sentences<'a>(&self, sentences: impl IntoIterator<Item = &'a str>) -> Vec<KeywordScore> {
+        let phrases = self.phrases(sentences);
         let word_scores = self.word_scores(&phrases);
         self.candidate_keywords(&phrases, word_scores)
     }
@@ -50,7 +59,7 @@ impl Rake {
         keywords
     }
 
-    fn word_scores<'a>(&'a self, phrases: &[Vec<&'a str>]) -> HashMap<&'a str, f64> {
+    fn word_scores<'a>(&self, phrases: &[Vec<&'a str>]) -> HashMap<&'a str, f64> {
         let mut word_freq = HashMap::new();
         let mut word_degree = HashMap::new();
         phrases.iter().for_each(|phrase| {
@@ -77,12 +86,13 @@ impl Rake {
         word_score
     }
 
-    fn phrases<'a>(&'a self, text: &'a str) -> Vec<Vec<&'a str>> {
-        let mut phrases = Vec::new();
-        PUNC_RE.split(text).filter(|s| !s.is_empty()).for_each(|s| {
+    fn phrases<'a>(&self, phrases_iter: impl IntoIterator<Item = &'a str>) -> Vec<Vec<&'a str>> {
+        let phrases_iter = phrases_iter.into_iter();
+        let mut phrases = Vec::with_capacity(2 * phrases_iter.size_hint().0);
+        for s in phrases_iter.filter(|s| !s.is_empty()) {
             let mut phrase = Vec::new();
-            s.split_whitespace().for_each(|word| {
-                if self.stop_words.contains(word.to_lowercase().as_str()) {
+            for word in s.split_whitespace() {
+                if self.stop_words.contains(&word.to_lowercase()) {
                     if !phrase.is_empty() {
                         phrases.push(phrase.clone());
                         phrase.clear();
@@ -90,11 +100,11 @@ impl Rake {
                 } else {
                     phrase.push(word);
                 }
-            });
+            }
             if !phrase.is_empty() {
                 phrases.push(phrase);
             }
-        });
+        }
         phrases
     }
 }
