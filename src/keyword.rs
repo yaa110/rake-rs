@@ -20,14 +20,10 @@ pub struct KeywordScore {
 impl KeywordScore {
     /// Creates a vector of `KeywordScore` from `mp`
     pub fn from_map(mp: HashMap<String, f64>) -> Vec<Self> {
-        let mut keywords = Vec::new();
-        for (kw, score) in mp {
-            keywords.push(KeywordScore {
-                keyword: kw,
-                score: score,
-            });
-        }
-        keywords
+        mp.into_iter().map(|(kw, score)| KeywordScore {
+            keyword: kw,
+            score: score,
+        }).collect()
     }
 }
 
