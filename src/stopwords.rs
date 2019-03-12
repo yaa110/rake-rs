@@ -12,11 +12,7 @@ pub struct StopWords(HashSet<String>);
 
 impl From<HashSet<String>> for StopWords {
     fn from(set: HashSet<String>) -> StopWords {
-        let mut sw = StopWords::new();
-        set.into_iter().for_each(|w| {
-            sw.insert(w);
-        });
-        sw
+        StopWords(set)
     }
 }
 
