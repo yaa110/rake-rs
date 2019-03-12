@@ -28,15 +28,11 @@ impl Rake {
     pub fn run(&self, text: &str) -> Vec<KeywordScore> {
         let phrases = self.phrases(text);
         let word_scores = self.word_scores(&phrases);
-        self.candidate_keywords(phrases, word_scores)
+        self.candidate_keywords(&phrases, word_scores)
     }
 
-    fn candidate_keywords<'a>(
-        &'a self,
-        phrases: Vec<Vec<&'a str>>,
-        word_scores: HashMap<&'a str, f64>,
-    ) -> Vec<KeywordScore> {
-        let mut keyword_score = HashMap::new();
+    fn candidate_keywords<'a>(&self, phrases: &[Vec<&'a str>], word_scores: HashMap<&'a str, f64>) -> Vec<KeywordScore> {
+        let mut keyword_score = HashMap::with_capacity(phrases.len());
         phrases.iter().for_each(|phrase| {
             let mut candidate_score = 0f64;
             phrase
