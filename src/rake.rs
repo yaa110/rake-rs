@@ -92,6 +92,7 @@ impl Rake {
         for s in phrases_iter.filter(|s| !s.is_empty()) {
             let mut phrase = Vec::new();
             for word in s.split_whitespace() {
+                let word = word.trim_matches(|c: char| !c.is_alphanumeric());
                 if self.stop_words.contains(&word.to_lowercase()) {
                     if !phrase.is_empty() {
                         phrases.push(phrase.clone());
