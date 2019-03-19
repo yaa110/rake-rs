@@ -1,5 +1,4 @@
 use std::cmp::Ordering;
-use std::collections::HashMap;
 
 /// An interface to sort a vector of keywords by score
 pub trait KeywordSort {
@@ -19,7 +18,7 @@ pub struct KeywordScore {
 
 impl KeywordScore {
     /// Creates a vector of `KeywordScore` from `mp`
-    pub fn from_map(mp: HashMap<String, f64>) -> Vec<Self> {
+    pub fn from_map(mp: impl IntoIterator<Item = (String, f64)>) -> Vec<Self> {
         mp.into_iter()
             .map(|(kw, score)| KeywordScore {
                 keyword: kw,
