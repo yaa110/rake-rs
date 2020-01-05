@@ -8,10 +8,8 @@ use stopwords::StopWords;
 #[derive(Debug, Clone)]
 pub struct Rake {
     stop_words: StopWords,
-}
-
-lazy_static! {
-    static ref PUNC_RE: Regex = Regex::new(r"[^\P{P}-]|\s+-\s+").unwrap();
+    num_re: Regex,
+    punc_re: Regex,
 }
 
 impl Rake {
@@ -20,6 +18,8 @@ impl Rake {
     pub fn new(stop_words: StopWords) -> Self {
         Rake {
             stop_words: stop_words,
+            num_re: Regex::new(r"-?\p{N}+[./٫,']?\p{N}*").expect("bad regex"),
+            punc_re: Regex::new(r"[^\P{P}-]|\s+-\s+").expect("bad regex"),
         }
     }
 
@@ -41,7 +41,7 @@ impl Rake {
             let mut candidate_score = 0f64;
             phrase
                 .iter()
-                .filter(|word| !word.is_number())
+                .filter(|word| !self.is_number(word))
                 .for_each(|word| candidate_score += word_scores[word]);
             *keyword_score.entry(phrase.join(" ")).or_insert(0f64) = candidate_score;
         });
@@ -56,12 +56,12 @@ impl Rake {
         phrases.iter().for_each(|phrase| {
             let len: usize = phrase
                 .iter()
-                .map(|word| if word.is_number() { 0 } else { 1 })
+                .map(|word| if self.is_number(word) { 0 } else { 1 })
                 .sum();
             if len > 0 {
                 phrase
                     .iter()
-                    .filter(|word| !word.is_number())
+                    .filter(|word| !self.is_number(word))
                     .for_each(|word| {
                         *word_freq.entry(*word).or_insert(0) += 1;
                         *word_degree.entry(*word).or_insert(0) += len - 1;
@@ -79,7 +79,7 @@ impl Rake {
 
     fn phrases<'a>(&'a self, text: &'a str) -> Vec<Vec<&'a str>> {
         let mut phrases = Vec::new();
-        PUNC_RE.split(text).filter(|s| !s.is_empty()).for_each(|s| {
+        self.punc_re.split(text).filter(|s| !s.is_empty()).for_each(|s| {
             let mut phrase = Vec::new();
             s.split_whitespace().for_each(|word| {
                 if self.stop_words.contains(word.to_lowercase().as_str()) {
@@ -96,5 +96,11 @@ impl Rake {
             }
         });
         phrases
+    }
+}
+
+impl NumberChecker<&str> for &crate::Rake {
+    fn is_number(&self, s: &str) -> bool {
+        self.num_re.is_match(s)
     }
 }

@@ -16,4 +16,3 @@ travis-ci = { repository = "yaa110/rake-rs" }
 
 [dependencies]
 regex = "~1.1"
-lazy_static = "~1.3"
