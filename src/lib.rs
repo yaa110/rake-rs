@@ -5,31 +5,33 @@
 //! [1]: http://onlinelibrary.wiley.com/doi/10.1002/9780470689646.ch1/summary
 //!
 //! ## How to Use
-//! - Append `rake` to `dependencies` of `Cargo.toml`:
+//! - Add `rake` to the `dependencies` of your project's `Cargo.toml`:
 //!
-//! ```ignore
+//! ```toml
+//! [dependencies]
 //! rake = "0.1"
 //! ```
 //!
-//! - Import modules:
+//! If you're using Rust 2015, then you'll also need to add it to your crate root:
 //!
-//! ```ignore
+//! ```rust
 //! extern crate rake;
-//! use rake::*;
 //! ```
 //!
-//! - Create a new instance of `Rake` struct:
+//! ### Example
 //!
-//! ```ignore
+//! ```
+//! // Import modules
+//! use rake::*;
+//!
+//! // Create a new instance of `Rake` struct
 //! let text = "a long text";
-//! let sw = StopWords::from_file("path/to/stop_words_list.txt").unwrap();
+//! let stop_words_list_path = "tests/SmartStoplist.txt";
+//! let sw = StopWords::from_file(stop_words_list_path).unwrap();
 //! let r = Rake::new(sw);
 //! let keywords = r.run(text);
-//! ```
 //!
-//! - Iterate over keywords:
-//!
-//! ```ignore
+//! // Iterate over keywords
 //! keywords.iter().for_each(
 //!     |&KeywordScore {
 //!         ref keyword,
