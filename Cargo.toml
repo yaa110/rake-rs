@@ -15,5 +15,4 @@ categories = ["algorithms", "text-processing"]
 travis-ci = { repository = "yaa110/rake-rs" }
 
 [dependencies]
-regex = "~1.1"
-lazy_static = "~1.3"
+regex = "1.3.1"
