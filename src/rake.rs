@@ -34,7 +34,10 @@ impl Rake {
     /// Runs RAKE algorithm on chunks of text (such as sentences), and returns a vector of keywords.
     /// The returned vector is sorted by score (from greater to less).
     #[inline]
-    pub fn run_fragments<'a>(&self, fragments: impl IntoIterator<Item = &'a str>) -> Vec<KeywordScore> {
+    pub fn run_fragments<'a>(
+        &self,
+        fragments: impl IntoIterator<Item = &'a str>,
+    ) -> Vec<KeywordScore> {
         let phrases = self.phrases(fragments);
         let word_scores = self.word_scores(&phrases);
         self.candidate_keywords(&phrases, word_scores)

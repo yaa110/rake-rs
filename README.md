@@ -9,7 +9,7 @@ The library provides a multilingual implementation of [Rapid Automatic Keyword E
 - Append `rake` to `dependencies` of `Cargo.toml`:
 
 ```toml
-rake = "0.2"
+rake = "0.3"
 ```
 
 - Import modules:
