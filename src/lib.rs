@@ -49,6 +49,6 @@ mod keyword;
 mod rake;
 mod stopwords;
 
-pub use keyword::{KeywordScore, KeywordSort};
 pub use self::rake::Rake;
+pub use keyword::{KeywordScore, KeywordSort};
 pub use stopwords::StopWords;

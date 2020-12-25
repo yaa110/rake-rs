@@ -1,3 +1,4 @@
+use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
 
 /// An interface to sort a vector of keywords by score
@@ -7,7 +8,7 @@ pub trait KeywordSort {
 }
 
 /// Represents a keyword score
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct KeywordScore {
     /// The keyword
     pub keyword: String,

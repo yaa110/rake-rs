@@ -1,6 +1,6 @@
 [package]
 name = "rake"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["Navid <yaa110@gmail.com>"]
 license = "MIT/Apache-2.0"
 readme = "README.md"
@@ -17,3 +17,5 @@ travis-ci = { repository = "yaa110/rake-rs" }
 
 [dependencies]
 regex = "1.4"
+serde = { version = "1.0", features = ["derive"] }
+lazy_static = "1.4"

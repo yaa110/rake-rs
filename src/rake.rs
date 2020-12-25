@@ -1,15 +1,20 @@
 use crate::inner::NumberChecker;
 use crate::keyword::{KeywordScore, KeywordSort};
 use crate::stopwords::StopWords;
+use lazy_static::lazy_static;
 use regex::Regex;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+lazy_static! {
+    static ref NUM_RE: Regex = Regex::new(r"-?\p{N}+[./٫,']?\p{N}*").unwrap();
+    static ref PUNC_RE: Regex = Regex::new(r"[^\P{P}-]|\s+-\s+").unwrap();
+}
+
 /// Represents an instance of Rake type
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Rake {
     stop_words: StopWords,
-    num_re: Regex,
-    punc_re: Regex,
 }
 
 impl Rake {
@@ -18,15 +23,13 @@ impl Rake {
     pub fn new(stop_words: StopWords) -> Self {
         Rake {
             stop_words: stop_words,
-            num_re: Regex::new(r"-?\p{N}+[./٫,']?\p{N}*").expect("bad regex"),
-            punc_re: Regex::new(r"[^\P{P}-]|\s+-\s+").expect("bad regex"),
         }
     }
 
     /// Runs RAKE algorithm on `text` and returns a vector of keywords.
     /// The returned vector is sorted by score (from greater to less).
     pub fn run(&self, text: &str) -> Vec<KeywordScore> {
-        let phrases = self.phrases(self.punc_re.split(text));
+        let phrases = self.phrases(PUNC_RE.split(text));
         let word_scores = self.word_scores(&phrases);
         self.candidate_keywords(&phrases, word_scores)
     }
@@ -114,6 +117,6 @@ impl Rake {
 
 impl NumberChecker<&str> for &crate::Rake {
     fn is_number(&self, s: &str) -> bool {
-        self.num_re.is_match(s)
+        NUM_RE.is_match(s)
     }
 }

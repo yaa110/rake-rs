@@ -1,3 +1,4 @@
+use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::convert::AsRef;
 use std::convert::{From, Into};
@@ -7,7 +8,7 @@ use std::ops::{Deref, DerefMut};
 use std::path::Path;
 
 /// Represents a set of stop words
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct StopWords(HashSet<String>);
 
 impl From<HashSet<String>> for StopWords {
