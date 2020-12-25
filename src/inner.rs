@@ -1,3 +1,3 @@
 pub(crate) trait NumberChecker<T> {
-    fn is_number(&self, T) -> bool;
+    fn is_number(&self, t: T) -> bool;
 }

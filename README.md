@@ -15,7 +15,6 @@ rake = "0.3"
 - Import modules:
 
 ```rust
-extern crate rake;
 use rake::*;
 ```
 

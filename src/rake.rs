@@ -1,8 +1,8 @@
-use inner::NumberChecker;
-use keyword::{KeywordScore, KeywordSort};
+use crate::inner::NumberChecker;
+use crate::keyword::{KeywordScore, KeywordSort};
+use crate::stopwords::StopWords;
 use regex::Regex;
 use std::collections::HashMap;
-use stopwords::StopWords;
 
 /// Represents an instance of Rake type
 #[derive(Debug, Clone)]

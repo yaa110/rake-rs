@@ -44,13 +44,11 @@
 #![doc(html_root_url = "https://docs.rs/rake/0.1")]
 #![deny(missing_docs)]
 
-extern crate regex;
-
 mod inner;
 mod keyword;
 mod rake;
 mod stopwords;
 
 pub use keyword::{KeywordScore, KeywordSort};
-pub use rake::Rake;
+pub use self::rake::Rake;
 pub use stopwords::StopWords;

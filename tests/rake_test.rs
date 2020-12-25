@@ -1,5 +1,3 @@
-extern crate rake;
-
 use rake::{KeywordScore, Rake, StopWords};
 
 #[test]
