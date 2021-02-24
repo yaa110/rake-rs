@@ -64,3 +64,9 @@ impl StopWords {
         Ok(sw)
     }
 }
+
+impl Default for StopWords {
+    fn default() -> Self {
+        Self::new()
+    }
+}

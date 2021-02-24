@@ -21,10 +21,7 @@ impl KeywordScore {
     /// Creates a vector of `KeywordScore` from `mp`
     pub fn from_map(mp: impl IntoIterator<Item = (String, f64)>) -> Vec<Self> {
         mp.into_iter()
-            .map(|(kw, score)| KeywordScore {
-                keyword: kw,
-                score: score,
-            })
+            .map(|(kw, score)| KeywordScore { keyword: kw, score })
             .collect()
     }
 }

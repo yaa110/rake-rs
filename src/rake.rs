@@ -21,9 +21,7 @@ impl Rake {
     /// Create a new instance of `Rake`.
     /// `stop_words` is an instance of `StopWords` struct.
     pub fn new(stop_words: StopWords) -> Self {
-        Rake {
-            stop_words: stop_words,
-        }
+        Rake { stop_words }
     }
 
     /// Runs RAKE algorithm on `text` and returns a vector of keywords.
