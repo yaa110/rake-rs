@@ -48,7 +48,9 @@ mod inner;
 mod keyword;
 mod rake;
 mod stopwords;
+mod metric;
 
 pub use self::rake::Rake;
 pub use keyword::{KeywordScore, KeywordSort};
 pub use stopwords::StopWords;
+pub use metric::Metric;

@@ -1,6 +1,7 @@
 use crate::inner::NumberChecker;
 use crate::keyword::{KeywordScore, KeywordSort};
 use crate::stopwords::StopWords;
+use crate::metric::Metric;
 use lazy_static::lazy_static;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -15,13 +16,20 @@ lazy_static! {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Rake {
     stop_words: StopWords,
+    metric : Metric,
 }
 
 impl Rake {
     /// Create a new instance of `Rake`.
     /// `stop_words` is an instance of `StopWords` struct.
     pub fn new(stop_words: StopWords) -> Self {
-        Rake { stop_words }
+        Rake { stop_words, metric: Metric::DegreeToFrequencyRatio }
+    }
+
+    /// Sets ranking metric.
+    /// `metric` is the new ranking metric.
+    pub fn set_metric(&mut self, metric: Metric) {
+        self.metric = metric;
     }
 
     /// Runs RAKE algorithm on `text` and returns a vector of keywords.
@@ -85,7 +93,11 @@ impl Rake {
         for (word, freq) in word_freq {
             word_score
                 .entry(word)
-                .or_insert((word_degree[word] + freq) as f64 / freq as f64);
+                .or_insert(match self.metric {
+                    Metric::DegreeToFrequencyRatio => (word_degree[word] + freq) as f64 / freq as f64,
+                    Metric::WordDegree => (word_degree[word] + freq) as f64,
+                    Metric::WordFrequency => freq as f64,
+                });
         }
         word_score
     }
