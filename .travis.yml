@@ -1,7 +1,0 @@
-language: rust
-rust:
-  - stable
-os:
-  - linux
-script:
-  - cargo test -- --nocapture

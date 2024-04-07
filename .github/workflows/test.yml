@@ -1,0 +1,27 @@
+name: Test and Lint
+on:
+  push:
+    branches:
+      - "*"
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install rust and run tests
+        run: |
+          rustup update stable --no-self-update
+          rustup default stable
+          cargo test -j`nproc`
+  lint:
+    name: Check format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install rust and check format
+        run: |
+          rustup update stable
+          rustup default stable
+          rustup component add rustfmt
+          cargo fmt -- --check

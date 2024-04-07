@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::convert::AsRef;
-use std::convert::{From, Into};
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
 use std::ops::{Deref, DerefMut};
@@ -17,9 +16,9 @@ impl From<HashSet<String>> for StopWords {
     }
 }
 
-impl Into<HashSet<String>> for StopWords {
-    fn into(self) -> HashSet<String> {
-        self.0
+impl From<StopWords> for HashSet<String> {
+    fn from(sw: StopWords) -> Self {
+        sw.0
     }
 }
 

@@ -1,11 +1,11 @@
-RAKE.rs
-=======
+# RAKE.rs
 
-[![crates.io](https://img.shields.io/crates/v/rake.svg)](https://crates.io/crates/rake) [![Documentation](https://img.shields.io/badge/Docs-rake-blue.svg)](https://docs.rs/rake) [![Build Status](https://travis-ci.org/yaa110/rake-rs.svg)](https://travis-ci.org/yaa110/rake-rs) ![Crates.io](https://img.shields.io/crates/l/rustc-serialize.svg)
+[![crates.io](https://img.shields.io/crates/v/rake.svg)](https://crates.io/crates/rake) [![Documentation](https://img.shields.io/badge/Docs-rake-blue.svg)](https://docs.rs/rake) ![Crates.io](https://img.shields.io/crates/l/rustc-serialize.svg) [![Test](https://github.com/yaa110/rake-rs/actions/workflows/test.yml/badge.svg)](https://github.com/yaa110/rake-rs/actions/workflows/test.yml)
 
 The library provides a multilingual implementation of [Rapid Automatic Keyword Extraction (RAKE)](http://onlinelibrary.wiley.com/doi/10.1002/9780470689646.ch1/summary) algorithm for Rust.
 
 ## How to Use
+
 - Append `rake` to `dependencies` of `Cargo.toml`:
 
 ```toml
