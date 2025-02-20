@@ -10,9 +10,9 @@ license = "MIT/Apache-2.0"
 name = "rake"
 readme = "README.md"
 repository = "https://github.com/yaa110/rake-rs"
-version = "0.3.5"
+version = "0.3.6"
 
 [dependencies]
-lazy_static = "1.4"
-regex = "1.10"
-serde = {version = "1.0", features = ["derive"]}
+lazy_static = "1.5"
+regex = "1.11"
+serde = {version = "1", features = ["derive"]}
