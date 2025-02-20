@@ -1,27 +1,19 @@
-name: Test and Lint
+name: Test
+
 on:
   push:
-    branches:
-      - "*"
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
+  linux:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Install rust and run tests
-        run: |
-          rustup update stable --no-self-update
-          rustup default stable
-          cargo test -j`nproc`
-  lint:
-    name: Check format
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install rust and check format
-        run: |
-          rustup update stable
-          rustup default stable
-          rustup component add rustfmt
-          cargo fmt -- --check
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt, clippy
+      - run: cargo test
+      - run: cargo fmt -- --check
+      - run: cargo clippy
